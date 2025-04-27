@@ -16,7 +16,7 @@ if not os.path.exists("Advanced_air_pollution_model.pkl"):
     print("Downloading model file...")
     try:
         import requests
-        url = "https://github.com/ItsMeArm00n/api-thing-2/blob/main/Advanced_air_pollution_model.pkl"
+        url = "https://github.com/ItsMeArm00n/api-thing-2/blob/master/Advanced_air_pollution_model.pkl"
         r = requests.get(url)
         with open("Advanced_air_pollution_model.pkl", "wb") as f:
             f.write(r.content)
