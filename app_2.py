@@ -1,5 +1,4 @@
 import os
-os.environ["NUMPY_DISABLE_UMATH"] = "1"  # Prevents _core import issues
 import warnings
 warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 from flask import Flask, request, jsonify
