@@ -51,7 +51,7 @@ def predict():
         ]]
 
         predicted_aqi = model.predict(input_features)[0]
-        return jsonify({"aqi": round(predicted_aqi, 2)})
+        return jsonify({"aqi": predicted_aqi})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
