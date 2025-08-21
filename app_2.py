@@ -17,7 +17,7 @@ try:
 except Exception as e:
     print(f"❌ Error loading model: {e}")
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['POST'], strict_slashes=False)
 def predict():
     if not model:
         return jsonify({"error": "Model not loaded"}), 500
