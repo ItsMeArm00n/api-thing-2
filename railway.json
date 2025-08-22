@@ -1,0 +1,9 @@
+{
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "pip install -r requirements.txt && python download_model.py"
+  },
+  "deploy": {
+    "startCommand": "python app_2.py"
+  }
+}
