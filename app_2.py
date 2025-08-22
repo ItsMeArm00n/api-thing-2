@@ -4,24 +4,38 @@ warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 from flask import Flask, request, jsonify
 import joblib
 from flask_cors import CORS
-import os
+import requests
 
 app = Flask(__name__)
 CORS(app)
 
+# Google Drive direct download link
+MODEL_FILE = "Advanced_air_pollution_model.pkl"
+DRIVE_FILE_ID = "1mHUgSz9OREZcUIW2isUk3AMQpmGz2agx"
+MODEL_URL = f"https://drive.google.com/uc?export=download&id={DRIVE_FILE_ID}"
+
+# Download the model if it doesn't exist
+if not os.path.exists(MODEL_FILE):
+    print("📥 Downloading model from Google Drive...")
+    response = requests.get(MODEL_URL, stream=True)
+    if response.status_code == 200:
+        with open(MODEL_FILE, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        print("✅ Model downloaded successfully!")
+    else:
+        raise RuntimeError(f"❌ Failed to download model, status code {response.status_code}")
+
 # Load model
-model = None
 try:
-    model = joblib.load(r"Advanced_air_pollution_model.pkl")
+    model = joblib.load(MODEL_FILE)
     print("✅ Model loaded successfully!")
 except Exception as e:
-    print(f"❌ Error loading model: {e}")
+    raise RuntimeError(f"❌ Error loading model: {e}")
+
 
 @app.route('/predict', methods=['POST'], strict_slashes=False)
 def predict():
-    if not model:
-        return jsonify({"error": "Model not loaded"}), 500
-
     try:
         data = request.get_json()
         required_fields = ["PM2.5", "PM10", "NO2", "SO2", "CO", "O3"]
@@ -42,6 +56,7 @@ def predict():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
