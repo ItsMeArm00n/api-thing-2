@@ -12,7 +12,7 @@ CORS(app)
 # Load model
 model = None
 try:
-    model = joblib.load(r"Advanced_air_pollution_model.pkl")
+    model = joblib.load(r"C:\Users\armaa\Documents\GitHub\api-thing-2\Advanced_air_pollution_model.pkl")
     print("✅ Model loaded successfully!")
 except Exception as e:
     print(f"❌ Error loading model: {e}")
