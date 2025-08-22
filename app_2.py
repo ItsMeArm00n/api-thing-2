@@ -19,8 +19,8 @@ except Exception as e:
 
 @app.route('/predict', methods=['POST'], strict_slashes=False)
 def predict():
-    if not model:
-        return jsonify({"error": "Model not loaded"}), 500
+  #  if not model:
+   #     return jsonify({"error": "Model not loaded"}), 500
 
     try:
         data = request.get_json()
